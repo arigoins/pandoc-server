@@ -1,48 +1,30 @@
-{-# LANGUAGE DataKinds       #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE TypeOperators   #-}
 
-module Lib
-  ( startApp
-  , app
-  ) where
+module Processor.Simple where
 
 import           Data.Aeson
 import           Data.Aeson.TH
-import           Network.Wai
-import           Network.Wai.Handler.Warp
 import           Servant
 import           Text.Pandoc
 import           Text.Pandoc.Shared
 
 data RawNote = RawNote
   { rawContent :: String
-  } deriving (Eq, Show)
+  } deriving (Show)
 
 data ProcessedNote = ProcessedNote
   { title           :: String
   , authors         :: [String]
   , renderedContent :: String
-  } deriving (Eq ,Show)
+  } deriving (Show)
 
 $(deriveJSON defaultOptions ''RawNote)
 $(deriveJSON defaultOptions ''ProcessedNote)
 
-type NoteAPI = "process" :> "md"
-                         :> ReqBody '[JSON] RawNote
-                         :> Post '[JSON] ProcessedNote
-
-startApp :: IO ()
-startApp = run 8080 app
-
-app :: Application
-app = serve api server
-
-api :: Proxy NoteAPI
-api = Proxy
-
-server :: Server NoteAPI
-server = processHandler
+type SimpleAPI = "process"
+                 :> "md"
+                 :> ReqBody '[JSON] RawNote
+                 :> Post '[JSON] ProcessedNote
 
 processHandler :: RawNote -> Handler ProcessedNote
 processHandler rn = return (processNote rn)

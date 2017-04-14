@@ -1,7 +1,6 @@
 module Main where
 
-import           Lib
+import           Application
 
 main :: IO ()
-main = putStrLn "Starting Noteloom Pandoc Server..."
-       >> startApp
+main = putStrLn "Starting Noteloom Pandoc Server..." >> startApp

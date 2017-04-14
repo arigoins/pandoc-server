@@ -1,8 +1,8 @@
-name:                noteloom-pandoc-server
+name:                pandoc-server
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/arigoins/noteloom-pandoc-server#readme
+homepage:            https://github.com/arigoins/pandoc-server#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Audarius Goins
@@ -15,7 +15,7 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib
+  exposed-modules:     Application
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , servant-server
@@ -23,22 +23,23 @@ library
                      , warp
                      , pandoc-types >= 1.17
                      , pandoc >= 1.19.2.1
+  other-modules:       Processor.Simple
   default-language:    Haskell2010
 
-executable noteloom-pandoc-server
+executable pandoc-server
   hs-source-dirs:      app
   main-is:             Main.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
-                     , noteloom-pandoc-server
+                     , pandoc-server
   default-language:    Haskell2010
 
-test-suite noteloom-pandoc-server-test
+test-suite pandoc-server-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
   build-depends:       base
-                     , noteloom-pandoc-server
+                     , pandoc-server
                      , hspec
                      , hspec-wai
                      , hspec-wai-json
@@ -48,4 +49,4 @@ test-suite noteloom-pandoc-server-test
 
 source-repository head
   type:     git
-  location: https://github.com/arigoins/noteloom-pandoc-server
+  location: https://github.com/arigoins/pandoc-server
